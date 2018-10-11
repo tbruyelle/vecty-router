@@ -9,7 +9,7 @@ import (
 	"github.com/gopherjs/vecty"
 )
 
-var routes = []*Route{}
+var routes = make(map[string]*Route)
 var hasNamedVar = regexp.MustCompile("{[^/]+}")
 
 // Route keeps track of the component and the route it's meant to be matched against.
@@ -110,11 +110,16 @@ func pathname() string {
 }
 
 func register(r *Route) {
-	routes = append(routes, r)
+	if _, ok := routes[r.pattern]; !ok {
+		routes[r.pattern] = r
+	}
 }
 
 func refreshRoutes() {
+	path := pathname()
 	for _, r := range routes {
-		vecty.Rerender(r)
+		if r.p.MatchString(path) {
+			vecty.Rerender(r)
+		}
 	}
 }
