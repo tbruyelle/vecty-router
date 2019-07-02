@@ -4,8 +4,9 @@ import (
 	"regexp"
 	"strings"
 
+	"syscall/js"
+
 	"github.com/cathalgarvey/fmtless"
-	"github.com/gopherjs/gopherjs/js"
 	"github.com/gopherjs/vecty"
 )
 
@@ -106,7 +107,7 @@ func GetNamedVar(c vecty.Component) map[string]string {
 
 // pathname gets the relative pathname from the browser.
 func pathname() string {
-	return js.Global.Get("location").Get("pathname").String()
+	return js.Global().Get("location").Get("pathname").String()
 }
 
 func register(r *Route) {

@@ -1,11 +1,13 @@
 package router
 
 import (
-	"github.com/gopherjs/gopherjs/js"
+	"syscall/js"
 )
 
 func init() {
-	js.Global.Set("onpopstate", func(e *js.Object) {
+	f := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		refreshRoutes()
+		return nil
 	})
+	js.Global().Set("onpopstate", f)
 }
