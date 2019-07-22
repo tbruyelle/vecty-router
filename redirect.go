@@ -8,7 +8,7 @@ import (
 func Redirect(route string) {
 	js.Global().Get("history").Call(
 		"pushState",
-		map[string]string{"redirectRoute": route},
+		map[string]interface{}{"redirectRoute": route},
 		route,
 		route,
 	)
